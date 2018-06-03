@@ -19,11 +19,16 @@ var titleMarginLeft = 60;
 var barsMarginTop = 80;
 
 var renderCloud = function (ctx, x, y, color) {
-  var cloudWidth = 420;
-  var cloudHeight = 270;
-
   ctx.fillStyle = color;
-  ctx.fillRect(x, y, cloudWidth, cloudHeight);
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x, y + 270);
+  ctx.lineTo(x + 380, y + 270);
+  ctx.lineTo(x + 420, y + 200);
+  ctx.lineTo(x + 420, y);
+  ctx.lineTo(x, y);
+  ctx.closePath();
+  ctx.fill();
 };
 
 var renderText = function (ctx, text, x, y, color) {
