@@ -36,12 +36,12 @@ var renderText = function (ctx, text, x, y, color) {
   ctx.fillText(text, x, y);
 };
 
-var getMaxElement = function (arr) {
+var getMaxElement = function (array) {
   var maxElement = array[0];
 
-  for (var i = 1; i < arr.length; i++) {
-    if (maxElement < arr[i]) {
-      maxElement = arr[i];
+  for (var i = 1; i < array.length; i++) {
+    if (maxElement < array[i]) {
+      maxElement = array[i];
     }
   }
 
