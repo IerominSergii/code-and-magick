@@ -37,7 +37,7 @@ var renderText = function (ctx, text, x, y, color) {
 };
 
 var getMaxElement = function (arr) {
-  var maxElement = arr[0];
+  var maxElement = array[0];
 
   for (var i = 1; i < arr.length; i++) {
     if (maxElement < arr[i]) {
