@@ -36,28 +36,12 @@ var renderText = function (ctx, text, x, y, color) {
   ctx.fillText(text, x, y);
 };
 
-var getMaxElement = function (array) {
-  var maxElement = array[0];
-
-  for (var i = 1; i < array.length; i++) {
-    if (maxElement < array[i]) {
-      maxElement = array[i];
-    }
-  }
-
-  return maxElement;
-};
-
-var getRandomNumber = function (min, max) {
-  return Math.round(Math.random() * (max - min) + min);
-};
-
 var getBarColor = function (name) {
   if (name === 'Вы') {
     return 'rgba(255, 0, 0, 1)';
   }
 
-  return 'hsla(237, ' + getRandomNumber(0, 100) + '%, 59%, 1)';
+  return 'hsla(237, ' + window.getRandomNumber(0, 100) + '%, 59%, 1)';
 };
 
 var renderBar = function (ctx, x, y, height, color) {
@@ -75,7 +59,7 @@ window.renderStatistics = function (ctx, names, times) {
   renderText(ctx, 'Ура, вы победили!', CLOUD_POSITION_X + titleMarginLeft, CLOUD_POSITION_Y + TEXT_HEIGHT, TEXT_COLOR);
   renderText(ctx, 'Список результатов:', CLOUD_POSITION_X + titleMarginLeft, CLOUD_POSITION_Y + TEXT_HEIGHT * 2, TEXT_COLOR);
 
-  var maxTime = getMaxElement(times);
+  var maxTime = window.getMaxElement(times);
   var positionY = CLOUD_POSITION_Y + barsMarginTop + BAR_MAX_HEIGHT;
 
   for (var i = 0; i < names.length; i++) {
