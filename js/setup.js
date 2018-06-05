@@ -1,11 +1,15 @@
 'use strict';
 
 (function () {
+  // import
+  var createWizardsArray = window.createWizardsArray;
+  var showElement = window.showElement;
+
   var SIMILAR_WIZARDS_AMOUNT = 4;
-  var wizards = window.createWizardsArray(SIMILAR_WIZARDS_AMOUNT);
+  var wizards = createWizardsArray(SIMILAR_WIZARDS_AMOUNT);
 
   var userDialog = document.querySelector('.setup');
-  window.showElement(userDialog);
+  showElement(userDialog);
 
   var similarListBlock = userDialog.querySelector('.setup-similar');
   var similarListElement = similarListBlock.querySelector('.setup-similar-list');
@@ -30,5 +34,5 @@
   }
 
   similarListElement.appendChild(fragment);
-  window.showElement(similarListBlock);
+  showElement(similarListBlock);
 })();
