@@ -2,30 +2,26 @@
 
 (function () {
   // import
-  var getRandom = window.getRandomNumber;
+  var getRandom = window.getRandomElement;
 
   var firstNames = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
   var secondNames = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   var coatColors = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var eyesColors = ['black', 'red', 'blue', 'yellow', 'green'];
 
-  var setFullName = function (name, surName) {
-    var fullName = [name, surName];
-    if (getRandom(0, 1)) {
-      fullName.reverse();
-    }
-    return fullName.join(' ');
+  var setFullName = function (fullName) {
+    return getRandom(1) ? fullName.join(' ') : fullName.reverse().join(' ');
   };
 
   var createWizard = function (nameFirst, nameSecond, colorCoat, colorEyes) {
     var newWizard = {};
 
-    var firstName = nameFirst[getRandom(0, nameFirst.length)];
-    var secondName = nameSecond[getRandom(0, nameSecond.length)];
-    newWizard.name = setFullName(firstName, secondName);
+    var firstName = nameFirst[getRandom(nameFirst.length)];
+    var secondName = nameSecond[getRandom(nameSecond.length)];
+    newWizard.name = setFullName([firstName, secondName]);
 
-    newWizard.coatColor = colorCoat[getRandom(0, colorCoat.length)];
-    newWizard.eyesColor = colorEyes[getRandom(0, colorEyes.length)];
+    newWizard.coatColor = colorCoat[getRandom(colorCoat.length)];
+    newWizard.eyesColor = colorEyes[getRandom(colorEyes.length)];
 
     return newWizard;
   };

@@ -2,8 +2,13 @@
 
 (function () {
   // export function
-  window.getRandomNumber = function (min, max) {
-    return Math.round(Math.random() * (max - min) + min);
+  window.getRandomNumber = function (max) {
+    return Math.round(Math.random() * max);
+  };
+
+  // export function
+  window.getRandomElement = function (elementLength) {
+    return Math.round(Math.random() * (elementLength - 1));
   };
 
   // export function
@@ -11,9 +16,7 @@
     var maxElement = array[0];
 
     for (var i = 1; i < array.length; i++) {
-      if (maxElement < array[i]) {
-        maxElement = array[i];
-      }
+      maxElement = maxElement < array[i] ? array[i] : maxElement;
     }
 
     return maxElement;
