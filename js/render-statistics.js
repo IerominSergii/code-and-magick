@@ -42,7 +42,7 @@
       return 'rgba(255, 0, 0, 1)';
     }
 
-    return 'hsla(237, ' + window.getRandomNumber(100) + '%, 59%, 1)';
+    return 'hsla(237, ' + window.util.getRandomNumber(100) + '%, 59%, 1)';
   };
 
   var renderBar = function (ctx, x, y, height, color) {
@@ -60,7 +60,7 @@
     renderText(ctx, 'Ура, вы победили!', CLOUD_POSITION_X + titleMarginLeft, CLOUD_POSITION_Y + TEXT_HEIGHT, TEXT_COLOR);
     renderText(ctx, 'Список результатов:', CLOUD_POSITION_X + titleMarginLeft, CLOUD_POSITION_Y + TEXT_HEIGHT * 2, TEXT_COLOR);
 
-    var maxTime = window.getMaxElement(times);
+    var maxTime = window.util.getMaxElement(times);
     var positionY = CLOUD_POSITION_Y + barsMarginTop + BAR_MAX_HEIGHT;
 
     names.forEach(function (name, i) {
