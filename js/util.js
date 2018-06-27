@@ -22,5 +22,10 @@
         element.classList.remove('hidden');
       }
     },
+    hideElement: function (element) {
+      if (!element.classList.contains('hidden')) {
+        element.classList.add('hidden');
+      }
+    },
   };
 })();
