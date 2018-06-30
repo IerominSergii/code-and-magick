@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  // constants
   var CLOUD_POSITION_X = 100;
   var CLOUD_POSITION_Y = 10;
 
@@ -19,6 +20,7 @@
   var titleMarginLeft = 60;
   var barsMarginTop = 80;
 
+  // functions
   var renderCloud = function (ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.beginPath();
@@ -50,7 +52,7 @@
     ctx.fillRect(x, y, BAR_WIDTH, height);
   };
 
-
+  // export
   window.renderStatistics = function (ctx, names, times) {
     ctx.font = '16px PT Mono';
 

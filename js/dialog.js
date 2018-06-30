@@ -1,10 +1,12 @@
 'use strict';
 
 (function () {
+  // elements
   var setup = document.querySelector('.setup');
   var setupUserPic = setup.querySelector('.upload');
 
-  setupUserPic.addEventListener('mousedown', function (evt) {
+  // handlers
+  var mouseDownHandler = function (evt) {
     evt.preventDefault();
 
     var startCoord = {
@@ -28,8 +30,8 @@
         y: moveEvt.clientY,
       };
 
-      setup.style.top = (setup.offsetTop - shift.y) + 'px';
       setup.style.left = (setup.offsetLeft - shift.x) + 'px';
+      setup.style.top = (setup.offsetTop - shift.y) + 'px';
     };
 
     var mouseUpHandler = function (upEvt) {
@@ -50,5 +52,8 @@
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
-  });
+  };
+
+  // start
+  setupUserPic.addEventListener('mousedown', mouseDownHandler);
 })();

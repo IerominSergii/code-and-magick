@@ -24,7 +24,7 @@
     return newWizard;
   };
 
-  // export function
+  // export
   window.createWizards = function (amount) {
     var wizards = [];
     while (wizards.length < amount) {
