@@ -1,15 +1,6 @@
 'use strict';
 
 (function () {
-  // import
-  var showElement = window.util.showElement;
-  var hideElement = window.util.hideElement;
-  var getRandomElement = window.util.getRandomElement;
-  var constants = window.constants;
-  var setupSubmitEnterPressHandler = window.setupSubmitEnterPressHandler;
-  var setupSubmitClickHandler = window.setupSubmitClickHandler;
-  var userNameInputChangeHandler = window.userNameInputChangeHandler;
-
   // constants
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
@@ -17,6 +8,15 @@
     x: 622,
     y: 80,
   };
+
+  // global
+  var showElement = window.util.showElement;
+  var hideElement = window.util.hideElement;
+  var getRandomElement = window.util.getRandomElement;
+  var constants = window.constants;
+  var setupSubmitEnterPressHandler = window.setupSubmitEnterPressHandler;
+  var setupSubmitClickHandler = window.setupSubmitClickHandler;
+  var userNameInputChangeHandler = window.userNameInputChangeHandler;
 
   // elements
   var userDialog = document.querySelector('.setup');

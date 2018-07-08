@@ -1,11 +1,11 @@
 'use strict';
 
 (function () {
-  // import
-  var createWizards = window.createWizards;
-
   // constants
   var SIMILAR_WIZARDS_AMOUNT = 4;
+
+  // global
+  var createWizards = window.createWizards;
 
   // elements
   var userDialog = document.querySelector('.setup');
