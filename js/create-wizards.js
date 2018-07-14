@@ -1,14 +1,16 @@
 'use strict';
 
 (function () {
-  // import
-  var getRandom = window.util.getRandomElement;
-
+  // constants
   var FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
   var SECOND_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
+  // global
+  var getRandom = window.util.getRandomElement;
+
+  // functions
   var setFullName = function (fullName) {
     return getRandom(1) ? fullName.join(' ') : fullName.reverse().join(' ');
   };
@@ -24,7 +26,7 @@
     return newWizard;
   };
 
-  // export function
+  // export
   window.createWizards = function (amount) {
     var wizards = [];
     while (wizards.length < amount) {

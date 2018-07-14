@@ -1,10 +1,12 @@
 'use strict';
 
 (function () {
+  // elements
   var setup = document.querySelector('.setup');
   var setupUserPic = setup.querySelector('.upload');
 
-  setupUserPic.addEventListener('mousedown', function (evt) {
+  // handlers
+  var setupMouseDownHandler = function (evt) {
     evt.preventDefault();
 
     var startCoord = {
@@ -14,7 +16,7 @@
 
     var dragged = false;
 
-    var mouseMoveHandler = function (moveEvt) {
+    var setupMouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       dragged = true;
 
@@ -28,15 +30,15 @@
         y: moveEvt.clientY,
       };
 
-      setup.style.top = (setup.offsetTop - shift.y) + 'px';
       setup.style.left = (setup.offsetLeft - shift.x) + 'px';
+      setup.style.top = (setup.offsetTop - shift.y) + 'px';
     };
 
-    var mouseUpHandler = function (upEvt) {
+    var setupMouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      document.removeEventListener('mouseup', mouseUpHandler);
+      document.removeEventListener('mousemove', setupMouseMoveHandler);
+      document.removeEventListener('mouseup', setupMouseUpHandler);
 
       if (dragged) {
         var preventDefaultClickHandler = function (clickEvt) {
@@ -48,7 +50,10 @@
       }
     };
 
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
-  });
+    document.addEventListener('mousemove', setupMouseMoveHandler);
+    document.addEventListener('mouseup', setupMouseUpHandler);
+  };
+
+  // start
+  setupUserPic.addEventListener('mousedown', setupMouseDownHandler);
 })();
