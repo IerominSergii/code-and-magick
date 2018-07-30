@@ -17,8 +17,9 @@
   var userNameInputChangeHandler =
     window.formValidity.userNameInputChangeHandler;
   var renderWizard = window.renderWizard;
-  var saveForm = window.backend.save;
-  var load = window.backend.load;
+  var saveForm = window.backend.saveForm;
+  var loadData = window.backend.loadData;
+  var errorHandler = window.backend.errorHandler;
 
   // elements
   var userDialog = document.querySelector('.setup');
@@ -52,13 +53,14 @@
     element.style.backgroundColor = colors[getRandomElement(colors.length)];
   };
 
-  var submitSetupWizardForm = function () {
-    if (userNameInput.valiidity.valid === true) {
-      saveForm(new FormData(setupWizardForm), closeSetup);
+  var submitSetupWizardForm = function (evt) {
+    if (userNameInput.validity.valid === true) {
+      evt.preventDefault();
+      saveForm(new FormData(setupWizardForm), closeSetup, errorHandler);
     }
   };
 
-  var successHandler = function (dataArray) {
+  var renderSimilarWizards = function (dataArray) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < 4; i++) {
@@ -68,20 +70,15 @@
     setupSimilar.classList.remove('hidden');
   };
 
-  var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style =
-      'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+  var resetSimilarWizards = function () {
+    setupSimilar.classList.add('hidden');
+    for (var i = similarListElement.children.length - 1; i >= 0; i--) {
+      similarListElement.removeChild(similarListElement.children[i]);
+    }
   };
 
   var openSetup = function () {
+    loadData(renderSimilarWizards, errorHandler);
     setupClose.addEventListener('click', closeSetup);
     document.addEventListener('keydown', userDialogEscPressHandler);
     document.addEventListener('keydown', setupCloseEnterPressHandler);
@@ -90,12 +87,12 @@
 
     userNameInput.addEventListener('change', userNameInputChangeHandler);
     setupPlayer.addEventListener('click', setupPlayerClickHandler);
-    load(successHandler, errorHandler);
     showElement(userDialog);
   };
 
   var closeSetup = function () {
     hideElement(userDialog);
+    resetSimilarWizards();
     setSetupInitialPosition();
     setupClose.removeEventListener('click', closeSetup);
     document.removeEventListener('keydown', userDialogEscPressHandler);
@@ -107,7 +104,6 @@
     setupPlayer.removeEventListener('click', setupPlayerClickHandler);
   };
 
-  // handlers
   var setupPlayerClickHandler = function (evt) {
     if (evt.target === wizardCoat) {
       changeFillColor(wizardCoat, constants.COAT_COLORS);
@@ -150,14 +146,14 @@
       document.activeElement === setupSubmit &&
       evt.keyCode === ENTER_KEYCODE
     ) {
-      submitSetupWizardForm();
       evt.preventDefault();
+      submitSetupWizardForm(evt);
     }
   };
 
   var setupSubmitClickHandler = function (evt) {
-    submitSetupWizardForm();
     evt.preventDefault();
+    submitSetupWizardForm(evt);
   };
 
   setupOpen.addEventListener('click', openSetup);
