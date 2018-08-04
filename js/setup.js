@@ -55,7 +55,7 @@
   };
 
   var submitSetupWizardForm = function (evt) {
-    if (userNameInput.validity.valid === true) {
+    if (userNameInput.validity.valid) {
       evt.preventDefault();
       saveForm(new FormData(setupWizardForm), closeSetup, showError);
     }
