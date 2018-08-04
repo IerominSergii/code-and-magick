@@ -5,14 +5,18 @@
   var userNameInput = userDialog.querySelector('.setup-user-name');
 
   window.formValidity = {
-    userNameInputChangeHandler: function () {
+    userNameInputCheckValidity: function () {
       if (userNameInput.validity.tooShort) {
         userNameInput.setCustomValidity(
-            'Имя персонажа не может содержать менее 2 символов'
+            'Имя персонажа не может содержать менее ' +
+            userNameInput.minLength +
+            ' символов'
         );
       } else if (userNameInput.validity.tooLong) {
         userNameInput.setCustomValidity(
-            'Максимальная длина имени персонажа — 25 символов'
+            'Максимальная длина имени персонажа — ' +
+            userNameInput.maxLength +
+            ' символов'
         );
       } else if (userNameInput.validity.valueMissing) {
         userNameInput.setCustomValidity('Обязательное поле');
