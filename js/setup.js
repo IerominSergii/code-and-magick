@@ -6,33 +6,39 @@
   var ESC_KEYCODE = 27;
   var SETUP_INITIAL_POSITION = {
     x: 622,
-    y: 80,
+    y: 80
   };
+  var SIMILAR_WIZARDS_AMOUNT = 4;
 
   // global
   var showElement = window.util.showElement;
   var hideElement = window.util.hideElement;
   var getRandomElement = window.util.getRandomElement;
   var constants = window.constants;
-  var setupSubmitEnterPressHandler = window.setupSubmitEnterPressHandler;
-  var setupSubmitClickHandler = window.setupSubmitClickHandler;
-  var userNameInputChangeHandler = window.userNameInputChangeHandler;
+  var userNameInputCheckValidity =
+    window.formValidity.userNameInputCheckValidity;
+  var renderWizard = window.renderWizard;
+  var saveForm = window.backend.saveForm;
+  var loadData = window.backend.loadData;
+  var showError = window.message.error;
 
   // elements
   var userDialog = document.querySelector('.setup');
+  var setupWizardForm = userDialog.querySelector('.setup-wizard-form');
+  var setupSubmit = userDialog.querySelector('.setup-submit');
   var setupClose = userDialog.querySelector('.setup-close');
   var userNameInput = userDialog.querySelector('.setup-user-name');
-  var setupSubmit = userDialog.querySelector('.setup-submit');
   var setupPlayer = userDialog.querySelector('.setup-player');
   var wizardCoat = userDialog.querySelector('.wizard-coat');
   var wizardEyes = userDialog.querySelector('.wizard-eyes');
+  var setupSimilar = userDialog.querySelector('.setup-similar');
+  var similarListElement = setupSimilar.querySelector('.setup-similar-list');
   var setupFireballWrap = setupPlayer.querySelector('.setup-fireball-wrap');
   var setupFireballInput = setupFireballWrap.querySelector('input');
   var setupFireball = setupFireballWrap.querySelector('.setup-fireball');
 
   var setupOpen = document.querySelector('.setup-open');
   var setupOpenIcon = setupOpen.querySelector('.setup-open-icon');
-
 
   // functions
   var setSetupInitialPosition = function () {
@@ -48,20 +54,46 @@
     element.style.backgroundColor = colors[getRandomElement(colors.length)];
   };
 
+  var submitSetupWizardForm = function (evt) {
+    if (userNameInput.validity.valid) {
+      evt.preventDefault();
+      saveForm(new FormData(setupWizardForm), closeSetup, showError);
+    }
+  };
+
+  var renderSimilarWizards = function (wizards) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < SIMILAR_WIZARDS_AMOUNT; i++) {
+      fragment.appendChild(renderWizard(wizards[i]));
+    }
+    similarListElement.appendChild(fragment);
+    setupSimilar.classList.remove('hidden');
+  };
+
+  var resetSimilarWizards = function () {
+    setupSimilar.classList.add('hidden');
+    for (var i = similarListElement.children.length - 1; i >= 0; i--) {
+      similarListElement.removeChild(similarListElement.children[i]);
+    }
+  };
+
   var openSetup = function () {
+    loadData(renderSimilarWizards, showError);
     setupClose.addEventListener('click', closeSetup);
     document.addEventListener('keydown', userDialogEscPressHandler);
     document.addEventListener('keydown', setupCloseEnterPressHandler);
     document.addEventListener('keydown', setupSubmitEnterPressHandler);
     setupSubmit.addEventListener('click', setupSubmitClickHandler);
 
-    userNameInput.addEventListener('change', userNameInputChangeHandler);
+    userNameInput.addEventListener('input', userNameInputCheckValidity);
     setupPlayer.addEventListener('click', setupPlayerClickHandler);
     showElement(userDialog);
   };
 
   var closeSetup = function () {
     hideElement(userDialog);
+    resetSimilarWizards();
     setSetupInitialPosition();
     setupClose.removeEventListener('click', closeSetup);
     document.removeEventListener('keydown', userDialogEscPressHandler);
@@ -69,11 +101,10 @@
     document.removeEventListener('keydown', setupSubmitEnterPressHandler);
     setupSubmit.removeEventListener('click', setupSubmitClickHandler);
 
-    userNameInput.removeEventListener('change', userNameInputChangeHandler);
+    userNameInput.removeEventListener('input', userNameInputCheckValidity);
     setupPlayer.removeEventListener('click', setupPlayerClickHandler);
   };
 
-  // handlers
   var setupPlayerClickHandler = function (evt) {
     if (evt.target === wizardCoat) {
       changeFillColor(wizardCoat, constants.COAT_COLORS);
@@ -93,18 +124,36 @@
   };
 
   var userDialogEscPressHandler = function (evt) {
-    if (document.activeElement !== userNameInput && evt.keyCode === ESC_KEYCODE) {
+    if (
+      document.activeElement !== userNameInput &&
+      evt.keyCode === ESC_KEYCODE
+    ) {
       evt.preventDefault();
       closeSetup();
     }
   };
 
   var setupCloseEnterPressHandler = function (evt) {
-    if (document.activeElement === setupClose && evt.keyCode === ENTER_KEYCODE) {
+    if (
+      document.activeElement === setupClose &&
+      evt.keyCode === ENTER_KEYCODE
+    ) {
       closeSetup();
     }
   };
 
+  var setupSubmitEnterPressHandler = function (evt) {
+    if (
+      document.activeElement === setupSubmit &&
+      evt.keyCode === ENTER_KEYCODE
+    ) {
+      submitSetupWizardForm(evt);
+    }
+  };
+
+  var setupSubmitClickHandler = function (evt) {
+    submitSetupWizardForm(evt);
+  };
 
   setupOpen.addEventListener('click', openSetup);
   setupOpenIcon.addEventListener('keydown', setupOpenIconEnterPressHandler);
