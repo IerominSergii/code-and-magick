@@ -3,7 +3,6 @@
 (function () {
   var TIMEOUT = 1000;
   var STATUS_SUCCESS = 200;
-  var URL = 'https://js.dump.academy/code-and-magick';
 
   var createXMLHttpRequest = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
@@ -12,6 +11,7 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_SUCCESS) {
         onSuccess(xhr.response);
+        // window.tempXhrResponse = xhr.response;
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -31,16 +31,16 @@
   };
 
   window.backend = {
-    loadData: function (onSuccess, onError) {
+    loadData: function (url, onSuccess, onError) {
       var xhr = createXMLHttpRequest(onSuccess, onError);
 
-      xhr.open('GET', URL + '/data');
+      xhr.open('GET', url + '/data');
       xhr.send();
     },
     saveForm: function (data, onSuccess, onError) {
       var xhr = createXMLHttpRequest(onSuccess, onError);
 
-      xhr.open('POST', URL);
+      xhr.open('POST', window.constants.URL);
       xhr.send(data);
     }
   };

@@ -8,18 +8,14 @@
     x: 622,
     y: 80
   };
-  var SIMILAR_WIZARDS_AMOUNT = 4;
 
-  // global
   var showElement = window.util.showElement;
   var hideElement = window.util.hideElement;
   var getRandomElement = window.util.getRandomElement;
   var constants = window.constants;
   var userNameInputCheckValidity =
     window.formValidity.userNameInputCheckValidity;
-  var renderWizard = window.renderWizard;
   var saveForm = window.backend.saveForm;
-  var loadData = window.backend.loadData;
   var showError = window.message.error;
 
   // elements
@@ -31,11 +27,12 @@
   var setupPlayer = userDialog.querySelector('.setup-player');
   var wizardCoat = userDialog.querySelector('.wizard-coat');
   var wizardEyes = userDialog.querySelector('.wizard-eyes');
-  var setupSimilar = userDialog.querySelector('.setup-similar');
-  var similarListElement = setupSimilar.querySelector('.setup-similar-list');
   var setupFireballWrap = setupPlayer.querySelector('.setup-fireball-wrap');
   var setupFireballInput = setupFireballWrap.querySelector('input');
   var setupFireball = setupFireballWrap.querySelector('.setup-fireball');
+
+  var setupSimilar = userDialog.querySelector('.setup-similar');
+  var similarListElement = setupSimilar.querySelector('.setup-similar-list');
 
   var setupOpen = document.querySelector('.setup-open');
   var setupOpenIcon = setupOpen.querySelector('.setup-open-icon');
@@ -44,10 +41,6 @@
   var setSetupInitialPosition = function () {
     userDialog.style.left = SETUP_INITIAL_POSITION.x + 'px';
     userDialog.style.top = SETUP_INITIAL_POSITION.y + 'px';
-  };
-
-  var changeFillColor = function (element, colors) {
-    element.style.fill = colors[getRandomElement(colors.length)];
   };
 
   var changeBackgroundColor = function (element, colors) {
@@ -61,25 +54,10 @@
     }
   };
 
-  var renderSimilarWizards = function (wizards) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < SIMILAR_WIZARDS_AMOUNT; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
-    }
-    similarListElement.appendChild(fragment);
-    setupSimilar.classList.remove('hidden');
-  };
-
-  var resetSimilarWizards = function () {
-    setupSimilar.classList.add('hidden');
-    for (var i = similarListElement.children.length - 1; i >= 0; i--) {
-      similarListElement.removeChild(similarListElement.children[i]);
-    }
-  };
-
   var openSetup = function () {
-    loadData(renderSimilarWizards, showError);
+    if (!similarListElement.children.length) {
+      window.similarWizards.load();
+    }
     setupClose.addEventListener('click', closeSetup);
     document.addEventListener('keydown', userDialogEscPressHandler);
     document.addEventListener('keydown', setupCloseEnterPressHandler);
@@ -93,7 +71,7 @@
 
   var closeSetup = function () {
     hideElement(userDialog);
-    resetSimilarWizards();
+    window.similarWizards.reset();
     setSetupInitialPosition();
     setupClose.removeEventListener('click', closeSetup);
     document.removeEventListener('keydown', userDialogEscPressHandler);
@@ -105,11 +83,21 @@
     setupPlayer.removeEventListener('click', setupPlayerClickHandler);
   };
 
+  // changeFillColor
+  var changeFillColor = function (element, colors) {
+    element.style.fill = colors[getRandomElement(colors.length)];
+  };
+
+  var changeCoatHandler = window.debounce(window.similarWizards.reload);
+  var changeEyesHandler = window.debounce(window.similarWizards.reload);
+
   var setupPlayerClickHandler = function (evt) {
     if (evt.target === wizardCoat) {
       changeFillColor(wizardCoat, constants.COAT_COLORS);
+      changeCoatHandler();
     } else if (evt.target === wizardEyes) {
       changeFillColor(wizardEyes, constants.EYES_COLORS);
+      changeEyesHandler();
     } else if (evt.target === setupFireball) {
       changeBackgroundColor(setupFireballWrap, constants.FIREBALL_COLORS);
       setupFireballInput.value = setupFireballWrap.style.backgroundColor;
@@ -157,4 +145,5 @@
 
   setupOpen.addEventListener('click', openSetup);
   setupOpenIcon.addEventListener('keydown', setupOpenIconEnterPressHandler);
+  window.similarWizards.load();
 })();
