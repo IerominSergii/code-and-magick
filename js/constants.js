@@ -11,6 +11,7 @@
       'rgb(0, 0, 0)'
     ],
     EYES_COLORS: ['black', 'red', 'blue', 'yellow', 'green'],
-    FIREBALL_COLORS: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848']
+    FIREBALL_COLORS: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'],
+    URL: 'https://js.dump.academy/code-and-magick'
   };
 })();
